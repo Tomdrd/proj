@@ -3,185 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saúde e Bem-Estar</title>
-    <style>
-        :root {
-            color-scheme: light dark;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        header {
-            width: 100%;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--bg-header, #007bff);
-            color: white;
-            position: relative;
-        }
-        header img {
-            height: 40px;
-        }
-        nav {
-            display: none;
-            position: absolute;
-            top: 60px;
-            right: 10px;
-            background: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-        }
-        nav a {
-            display: block;
-            padding: 10px;
-            color: black;
-            text-decoration: none;
-        }
-        nav a:hover {
-            background: #ddd;
-        }
-        .menu-icon {
-            font-size: 30px;
-            cursor: pointer;
-        }
-        .container {
-            width: 90%;
-            max-width: 600px;
-            text-align: center;
-            padding: 20px;
-        }
-        .box {
-            margin: 20px 0;
-            padding: 15px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        input, button {
-            width: 90%;
-            padding: 10px;
-            margin: 5px 0;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .progress-container {
-            width: 100%;
-            background-color: #ddd;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-        .progress-bar {
-            height: 20px;
-            background-color: #007bff;
-            width: 0%;
-        }
-        footer {
-            width: 100%;
-            background: orange;
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-            margin-top: 20px;
-        }
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 10px;
-        }
-        .social-icons a {
-            text-decoration: none;
-            font-size: 24px;
-            color: white;
-        }
-    </style>
+    <title>Olá, Mundo!</title>
 </head>
 <body>
-
-    <header>
-        <img src="logo.png" alt="Logo">
-        <div class="menu-icon" onclick="toggleMenu()">☰</div>
-        <nav id="menu">
-            <a href="#">Início</a>
-            <a href="#">Sobre</a>
-            <a href="#">Contato</a>
-        </nav>
-    </header>
-
-    <div class="container">
-        <div class="box">
-            <h2>Frase do Dia</h2>
-            <p id="frase"></p>
-        </div>
-
-        <div class="box">
-            <h2>Calculadora de IMC</h2>
-            <input type="number" id="peso" placeholder="Peso (kg)">
-            <input type="number" id="altura" step="0.01" placeholder="Altura (m)">
-            <button onclick="calcularIMC()">Calcular</button>
-            <p id="resultadoIMC"></p>
-        </div>
-
-        <div class="box">
-            <h2>Contador de Água</h2>
-            <label>Meta diária (ml):</label>
-            <input type="number" id="meta-agua" value="2000" min="100" onchange="atualizarProgresso()">
-            <p>Consumido: <span id="agua-total">0</span> ml</p>
-            <div class="progress-container">
-                <div class="progress-bar" id="progress-bar"></div>
-            </div>
-            <button onclick="adicionarAgua(250)">+ 250ml</button>
-            <button onclick="adicionarAgua(500)">+ 500ml</button>
-            <input type="number" id="agua-custom" placeholder="Digite um valor (ml)">
-            <button onclick="adicionarAguaCustom()">Adicionar</button>
-            <button onclick="resetarAgua()">Resetar</button>
-        </div>
-    </div>
-
-    <footer>
-        <h3>Sobre Nós</h3>
-        <p>Somos um portal dedicado ao bem-estar e saúde, ajudando você a viver melhor.</p>
-        <div class="social-icons">
-            <a href="#"><span>📞</span> Whatsapp</a>
-            <a href="#"><span>📷</span> Instagram</a>
-            <a href="#"><span>📺</span> YouTube</a>
-        </div>
-    </footer>
-
+    <h1>Olá, Mundo!</h1>
+    <button id="perm">Ativar Notificações</button>
+    <br><br>
+    <input type="number" id="hora" min="0" max="23" placeholder="Hora (0-23)">
+    <input type="number" id="minuto" min="0" max="59" placeholder="Minuto (0-59)">
+    <button id="agendar">Agendar Notificação</button>
+    
     <script>
-        function solicitarPermissaoNotificacao() {
-            if ("Notification" in window) {
-                Notification.requestPermission().then(permission => {
-                    if (permission === "granted") {
-                        setInterval(() => {
-                            new Notification("💧 Hora de Beber Água!", {
-                                body: "Mantenha-se hidratado! Beba um copo de água agora.",
-                                icon: "https://cdn-icons-png.flaticon.com/512/3014/3014934.png"
-                            });
-                        }, 2 * 60 * 60 * 1000);
-                    }
-                });
-            }
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(reg => console.log("Service Worker registrado", reg))
+                .catch(err => console.error("Erro ao registrar Service Worker", err));
         }
-        window.onload = function () {
-            exibirFraseAleatoria();
-            solicitarPermissaoNotificacao();
-        };
+
+        document.getElementById("perm").addEventListener("click", () => {
+            Notification.requestPermission().then(permission => {
+                if (permission === "granted") {
+                    console.log("Permissão concedida!");
+                } else {
+                    console.log("Permissão negada.");
+                }
+            });
+        });
+
+        function agendarNotificacao(hora, minuto) {
+            const agora = new Date();
+            const horarioNotificacao = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate(), hora, minuto, 0);
+
+            if (horarioNotificacao - agora < 0) {
+                horarioNotificacao.setDate(horarioNotificacao.getDate() + 1);
+            }
+
+            setTimeout(() => {
+                enviarNotificacao();
+            }, horarioNotificacao - agora);
+        }
+
+        function enviarNotificacao() {
+            navigator.serviceWorker.ready.then(registration => {
+                registration.showNotification("Notificação Web", {
+                    body: "Clique para acessar o site!",
+                    icon: "/icon.png",
+                    data: { url: "https://meusite.com" },
+                    actions: [{ action: "open", title: "Abrir site" }]
+                });
+            });
+        }
+
+        document.getElementById("agendar").addEventListener("click", () => {
+            const hora = document.getElementById("hora").value;
+            const minuto = document.getElementById("minuto").value;
+            agendarNotificacao(parseInt(hora), parseInt(minuto));
+        });
     </script>
 </body>
 </html>
